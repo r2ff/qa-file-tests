@@ -1,6 +1,7 @@
 package tests;
 
 import com.codeborne.pdftest.PDF;
+import com.codeborne.xlstest.XLS;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -14,7 +15,9 @@ import static utils.Files.readTextFromPath;
 public class CompareFilesTests {
     String txtFilePath = "./src/test/resources/files/text.txt",
             pdfFilePath = "./src/test/resources/files/text.pdf",
-            expectedData = "a large language ocean1";
+            xlsFilePath = "./src/test/resources/files/text.xls",
+            xlsxFilePath = "./src/test/resources/files/text.xlsx",
+            expectedData = "a large language ocean";
 
     @Test
     void txtFileCompareTest() throws IOException {
@@ -26,6 +29,12 @@ public class CompareFilesTests {
     @Test
     void pdfFileCompareTest() throws IOException {
         PDF pdf = new PDF(new File(pdfFilePath));
-        assertThat(pdf, containsText(expectedData));
+        assertThat(pdf, PDF.containsText(expectedData));
+    }
+
+    @Test
+    void xlsFileCompareTest() throws IOException {
+        XLS spreadsheet = new XLS(new File(xlsFilePath));
+        assertThat(spreadsheet, XLS.containsText(expectedData));
     }
 }
