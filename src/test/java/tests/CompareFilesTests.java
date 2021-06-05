@@ -11,6 +11,7 @@ import static com.codeborne.pdftest.PDF.containsText;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static utils.Files.readTextFromPath;
+import static utils.Files.readXlsxFromPath;
 
 public class CompareFilesTests {
     String txtFilePath = "./src/test/resources/files/text.txt",
@@ -36,5 +37,11 @@ public class CompareFilesTests {
     void xlsFileCompareTest() throws IOException {
         XLS spreadsheet = new XLS(new File(xlsFilePath));
         assertThat(spreadsheet, XLS.containsText(expectedData));
+    }
+
+    @Test
+    void xlsxFileCompareTest() {
+        String actualDate = readXlsxFromPath(xlsxFilePath);
+        assertThat(actualDate, containsString(expectedData));
     }
 }
