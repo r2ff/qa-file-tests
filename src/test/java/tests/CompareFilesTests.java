@@ -2,10 +2,13 @@ package tests;
 
 import com.codeborne.pdftest.PDF;
 import com.codeborne.xlstest.XLS;
+import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+
 
 import static com.codeborne.pdftest.PDF.containsText;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -18,6 +21,10 @@ public class CompareFilesTests {
             pdfFilePath = "./src/test/resources/files/text.pdf",
             xlsFilePath = "./src/test/resources/files/text.xls",
             xlsxFilePath = "./src/test/resources/files/text.xlsx",
+            zipFilePath = "./src/test/resources/files/text.zip",
+            unzipFolderPath = "./src/test/resources/files/unzip/",
+            unzipTxtFilePath = "./src/test/resources/files/unzip/text.txt",
+            zipPassword = "123",
             expectedData = "a large language ocean";
 
     @Test
@@ -43,5 +50,20 @@ public class CompareFilesTests {
     void xlsxFileCompareTest() {
         String actualDate = readXlsxFromPath(xlsxFilePath);
         assertThat(actualDate, containsString(expectedData));
+    }
+
+
+    @Test
+    void zipFileCompareTest() throws IOException, ZipException {
+
+        ZipFile zipFile = new ZipFile(zipFilePath);
+            if (zipFile.isEncrypted()) {
+                zipFile.setPassword(zipPassword);
+            }
+            zipFile.extractAll(unzipFolderPath);
+
+        String actualDate = readTextFromPath(unzipTxtFilePath);
+        assertThat(actualDate, containsString(expectedData));
+
     }
 }
