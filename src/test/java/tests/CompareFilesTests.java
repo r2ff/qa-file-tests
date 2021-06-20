@@ -24,6 +24,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static utils.Files.*;
 
+//отличный код!
+
 public class CompareFilesTests {
     String txtFilePath = "./src/test/resources/files/text.txt",
             pdfFilePath = "./src/test/resources/files/text.pdf",
